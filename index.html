@@ -1,728 +1,1392 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl"> <!-- تعيين اللغة العربية والاتجاه من اليمين لليسار -->
+<html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>مركز الساعة الإضافية</title>
-    <!-- مكتبات التصميم والأيقونات -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
-     <!-- إضافة خط يدعم العربية مثل Cairo -->
-     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600&display=swap" rel="stylesheet">
-     <style>
-        body {
-            font-family: 'Tahoma', sans-serif;
-            direction: rtl;
-            text-align: right;
-            margin: 0;
-            padding: 0;
-            background-color: #f9f9f9;
-            color: #333;
-        }
-        h3 {
-            text-align: center;
-            color: #007BFF;
-            margin-top: 20px;
-        }
-        .dros {
-            list-style: none;
-            padding: 0;
-            max-width: 600px;
-            margin: 20px auto;
-        }
-        .dros li {
-            margin-bottom: 15px;
-        }
-        .dros a {
-            display: block;
-            text-decoration: none;
-            background: linear-gradient(90deg, #007BFF, #00BFFF);
-            color: white;
-            padding: 12px 20px;
-            border-radius: 8px;
-            font-size: 16px;
-            font-weight: bold;
-            text-align: center;
-            transition: transform 0.3s, background 0.3s;
-        }
-        .dros a:hover {
-            transform: scale(1.05);
-            background: linear-gradient(90deg, #0056b3, #008cbf);
-        }
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border: 2px solid #007BFF;
-            padding: 20px;
-            z-index: 1000;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 10px;
-            max-width: 400px;
-            text-align: center;
-        }
-        .popup h3 {
-            color: #007BFF;
-            margin-bottom: 20px;
-        }
-        .popup a {
-            display: inline-block;
-            text-decoration: none;
-            margin: 10px;
-            padding: 10px 20px;
-            border-radius: 5px;
-            color: white;
-            background-color: #f0eded;
-            font-size: 14px;
-            transition: background 0.3s;
-        }
-        .popup a:hover {
-            background-color: #d5d5d5;
-        }
-        .popup button {
-            background: #FF4D4D;
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            font-size: 14px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .popup button:hover {
-            background: #cc0000;
-        }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-
-
-        }
-        /* لجعل التصميم مناسبًا للهواتف */
-        @media (max-width: 768px) {
-            .dros a {
-                font-size: 14px;
-                padding: 10px 15px;
-            }
-            .popup {
-                padding: 15px;
-                max-width: 90%;
-            }
-            .popup a {
-                font-size: 13px;
-                padding: 8px 15px;
-            }
-            .popup button {
-                font-size: 13px;
-                padding: 8px 10px;
-            }
-        }
-    </style>
-     <style>
-        
-        .dros {
-            list-style: none;
-            padding: 0;
-        }
-        .dros li {
-            margin-bottom: 10px;
-        }
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            border: 1px solid #ccc;
-            padding: 20px;
-            z-index: 1000;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-        .popup a {
-            display: block;
-            margin: 10px 0;
-            color: #007BFF;
-            text-decoration: none;
-        }
-        .overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 999;
-        }
-    </style>
-     <style>
-         body {
-             font-family: 'Cairo', sans-serif; /* تغيير الخط إلى Cairo للغة العربية */
-             direction: rtl; /* تأكيد الاتجاه من اليمين لليسار */
-             text-align: right; /* محاذاة النصوص لليمين بشكل افتراضي */
-         }
- 
-         .category-info {
-             text-align: right; /* محاذاة النصوص إلى اليمين */
-         }
- 
-         .category-list a, .meta span {
-             text-align: right; /* محاذاة النصوص إلى اليمين */
-             display: inline-block;
-         }
- 
-        
- 
-         .social-icone a {
-             margin-left: 10px; /* تعديل المسافات بين الأيقونات بشكل يتناسب مع الاتجاه RTL */
-         }
- 
-         /* إضافة تنسيق عام للمحتوى */
-         .content {
-             margin-right: 20px;
-         }
-     </style>
- 
-    <style>
-        body {
-            direction: rtl;
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f4f9;
-            scroll-behavior: smooth;
-            overflow-x: hidden;
-        }
-        /* خلفية الصفحة */
-        .hero {
-            height: 100vh;
-            background: url('1.png') no-repeat center center/cover;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            color: white;
-            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.8);
-        }
-        .hero h1 {
-            font-size: 3rem;
-            margin-bottom: 20px;
-        }
-        .hero p {
-            font-size: 1.1rem;
-        }
-
-        .section-title {
-            text-align: center;
-            padding: 50px 0;
-            color: #007BFF;
-            font-size: 2.5rem;
-        }
-
-        .icon-box {
-            text-align: center;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-            background-color: white;
-            transition: transform 0.3s ease-in-out;
-        }
-
-        .icon-box:hover {
-            transform: translateY(-10px);
-        }
-
-        .icon-box i {
-            font-size: 3rem;
-            color: #007BFF;
-        }
-
-        .image-section img {
-            width: 100%;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        footer {
-            background-color: #343a40;
-            color: white;
-            text-align: center;
-            padding: 15px;
-        }
-    </style>
-    <style>
-       
-
-        .section-title {
-            text-align: center;
-            margin: 60px 0;
-            color: #007BFF;
-            font-size: 2.5rem;
-        }
-
-        .about-section {
-            background-color: #f8f9fa;
-            padding: 50px 0;
-        }
-
-        .testimonial {
-            background-color: #fff;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 20px;
-            border-radius: 8px;
-            margin-bottom: 30px;
-            text-align: center;
-            transition: transform 0.3s;
-        }
-
-        .testimonial:hover {
-            transform: translateY(-10px);
-        }
-
-        .counter-section {
-            padding: 50px 100px;
-            background-color: #007BFF;
-            color: white;
-            text-align: center;
-        }
-
-        .counter {
-            font-size: 2.5rem;
-            font-weight: bold;
-        }
-
-        .faq {
-            background-color: #f8f9fa;
-            padding: 50px 0;
-        }
-
-        .faq-item {
-            background-color: #fff;
-            margin-bottom: 15px;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-
-        .back-to-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            font-size: 1.5rem;
-            background: #007BFF;
-            color: white;
-            padding: 10px;
-            border-radius: 50%;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            display: none;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .back-to-top:hover {
-            background: #0056b3;
-        }
-    </style>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5887199789142850"
+    crossorigin="anonymous"></script>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Developer Tech || Personal Portfolio</title>
+    <meta name="robots" content="noindex, follow">
+   
+    <meta name="description" content="Rechercher app , game , developer , website , portfoilo , application , games , photo , ">
+    <meta name="keywords" content="Photo,  app, game, developer, website, portfoilo, application, games, photo, Developer, Tech, Personal, Portfolio, ">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="assets/images/logos-circle.png">
+    <!-- CSS 
+    ============================================ -->
+    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick.css">
+    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
+    <link rel="stylesheet" href="assets/css/vendor/aos.css">
+    <link rel="stylesheet" href="assets/css/plugins/feature.css">
+    <!-- Style css -->
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
-<body>
-    <!-- الشريط العلوي -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#"><i class="fas fa-clock"></i> مركز الساعة الإضافية</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item"><a class="nav-link" href="#about">من نحن</a></li>
-                <li class="nav-item"><a class="nav-link" href="#services">خدماتنا</a></li>
-                <li class="nav-item"><a class="nav-link" href="#gallery">المعرض</a></li>
-                <li class="nav-item"><a class="nav-link" href="#time">توقيت الدراسة</a></li>
-                <li class="nav-item"><a class="nav-link" href="#nomber">إنجازاتنا بالأرقام</a></li>
-                <li class="nav-item"><a class="nav-link" href="#chahada">شهادات طلابنا
-                </a></li>
-                <li class="nav-item"><a class="nav-link" href="#1">الأسئلة الشائعة
-                </a></li>
-                <li class="nav-item"><a class="nav-link" href="#contact">اتصل بنا</a></li>
-            </ul>
-        </div>
-    </nav>
 
-    <!-- القسم الرئيسي -->
-    <div class="hero">
-        <div class="text-center">
-            <h1>نرتقي بمستوى تعليمكم</h1>
-            <p>مركز الساعة الإضافية - دروس دعم شاملة في مادة اللغة العربية</p>
-        </div>
-    </div>
+<body class="template-color-1 spybody" data-spy="scroll" data-target=".navbar-example2" data-offset="70">
 
-    <!-- قسم من نحن -->
-    <div id="about" class="container mt-5">
-        <h2 class="section-title">من نحن</h2>
-        <p class="text-center">
-            نحن مركز دعم تربوي متخصص في تقديم دروس إضافية في مادة اللغة العربية لجميع المستويات.
-            نهدف إلى تحسين مهارات الطلاب في القراءة، الكتابة، والنحو عبر طرق تدريس عصرية ومتطورة.
-        </p>
-    </div>
-
-    <!-- الخدمات -->
-    <div id="services" class="container mt-5">
-        <h2 class="section-title">خدماتنا</h2>
-        <div class="row">
-            <div class="col-md-4 mb-4">
-                <div class="icon-box">
-                    <i class="fas fa-chalkboard-teacher" ></i>
-                    <br><br>
-                    <h4>النحو والصرف</h4>
-                    <p>تقوية قواعد اللغة العربية وفهم أصول النحو والصرف.</p>
+    <!-- Start Header -->
+    <header class="rn-header haeder-default black-logo-version header--fixed header--sticky">
+        <div class="header-wrapper rn-popup-mobile-menu m--0 row align-items-center">
+            <!-- Start Header Left -->
+            <div class="col-lg-2 col-6">
+                <div class="header-left">
+                    <div class="logo">
+                        <a href="index.html">
+                            <img src="assets/images/logo.png" alt="logo">
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="icon-box">
-                    <i class="fas fa-pencil-alt"></i>
-                    <br><br>
-                    <h4>الكتابة الإبداعية</h4>
-                    <p>تحسين مهارات الكتابة الأدبية والإبداعية لدى الطلاب.</p>
+            <!-- End Header Left -->
+            <!-- Start Header Center -->
+            <div class="col-lg-10 col-6">
+                <div class="header-center">
+                    <nav id="sideNav" class="mainmenu-nav navbar-example2 d-none d-xl-block">
+                        <!-- Start Mainmanu Nav -->
+                        <ul class="primary-menu nav nav-pills">
+                            <li class="nav-item"><a class="nav-link smoth-animation active" href="#home">Home</a></li>
+                            <li class="nav-item"><a class="nav-link smoth-animation" href="#features">Features</a></li>
+                            <li class="nav-item"><a class="nav-link smoth-animation" href="#portfolio">Portfolio</a></li>
+                            <li class="nav-item"><a class="nav-link smoth-animation" href="#resume">Resume</a></li>
+                          <!--  <li class="nav-item"><a class="nav-link smoth-animation" href="#pricing">Pricing</a></li>-->
+                            <li class="nav-item"><a class="nav-link smoth-animation" href="#contacts">Contact</a></li>
+                        </ul>
+                        <!-- End Mainmanu Nav -->
+                    </nav>
+                    <!-- Start Header Right  -->
+                    <div class="header-right">
+                        <a class="rn-btn" target="_blank" href="ar.html"><span>AR</span></a> 
+                        <div class="hamberger-menu d-block d-xl-none">
+                            <i id="menuBtn" class="feather-menu humberger-menu"></i>
+                        </div>
+                        <div class="close-menu d-block">
+                            <span class="closeTrigger">
+                            <i data-feather="x"></i>
+                        </span>
+                        </div>
+                    </div>
+                    <!-- End Header Right  -->
+
                 </div>
             </div>
-            <div class="col-md-4 mb-4">
-                <div class="icon-box">
-                    <i class="fas fa-book-open"></i>
-                    <br><br>
-                    <h4>القراءة والفهم</h4>
-                    <p>تطوير مهارات القراءة والاستيعاب النصي للنصوص الأدبية والعملية.</p>
+            <!-- End Header Center -->
+        </div>
+    </header>
+    <!-- End Header Area -->
+    <!-- Start Popup Mobile Menu  -->
+    <div class="popup-mobile-menu">
+        <div class="inner">
+            <div class="menu-top">
+                <div class="menu-header">
+                    <a class="logo" href="ar.html">
+                        <img src="assets/images/ar.png" alt="Personal Portfolio">
+                    </a>
+                    <div class="close-button">
+                        <button class="close-menu-activation close"><i data-feather="x"></i></button>
+                    </div>
                 </div>
+                <!-- <p class="discription">Inbio is a personal portfolio template. You can customize all.</p> -->
+            </div>
+            <div class="content">
+                <ul class="primary-menu nav nav-pills">
+                    <li class="nav-item"><a class="nav-link smoth-animation active" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link smoth-animation" href="#features">Features</a></li>
+                    <li class="nav-item"><a class="nav-link smoth-animation" href="#portfolio">Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link smoth-animation" href="#resume">Resume</a></li>
+              
+                    <li class="nav-item"><a class="nav-link smoth-animation" href="#contacts">Contact</a></li>
+                   
+                </ul>
+                <!-- social sharea area -->
+                <div class="social-share-style-1 mt--40">
+                    <span class="title">find with me</span>
+                    <ul class="social-share d-flex liststyle">
+                        <li class="facebook"><a href="https://www.facebook.com/profile.php?id=61567085345227&mibextid=ZbWKwL"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook">
+                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                                </svg></a>
+                        </li>
+                        <li class="instagram"><a href="https://www.instagram.com/eren_yeager_x5/profilecard/?igsh=bmY5djlyZGdveWNx"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram">
+                                    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                                </svg></a>
+                        </li>
+                     
+                    </ul>
+                </div>
+                <!-- end -->
             </div>
         </div>
     </div>
+    <!-- End Popup Mobile Menu  -->
 
-    <!-- المعرض -->
-    <div id="gallery" class="container mt-5">
-        <h2 class="section-title">المعرض</h2>
-        <div class="image-section">
-            <div class="row">
-                <div class="col-md-6"><img src="2.png" alt="صورة 1"></div>
-                <div class="col-md-6"><img src="2.png" alt="صورة 2"></div>
+
+
+
+    <main class="main-page-wrapper">
+
+        <!-- Start Slider Area -->
+        <div id="home" class="rn-slider-area">
+            <div class="slide slider-style-1">
+                <div class="container">
+                    <div class="row row--30 align-items-center">
+                        <div class="order-2 order-lg-1 col-lg-7 mt_md--50 mt_sm--50 mt_lg--30">
+                            <div class="content">
+                                <div class="inner">
+                                    <span class="subtitle">Welcome to my world</span>
+                                    <h1 class="title">Hi, we are <span>Development</span><br>
+                                        <span class="header-caption" id="page-top">
+                                            <!-- type headline start-->
+                                            <span class="cd-headline clip is-full-width">
+                                                <span>a </span>
+                                        <!-- ROTATING TEXT -->
+                                        <span class="cd-words-wrapper">
+                                                    <b class="is-visible">Designer Application.</b>
+                                                    <b class="is-hidden">Professional Coder.</b>
+                                                    <b class="is-hidden">Front-End Developer.</b>
+                                                </span>
+                                        </span>
+                                        <!-- type headline end -->
+                                        </span>
+                                    </h1>
+
+                                    <div>
+                                        <p class="description">Welcome to our website. We are a team of developers passionate about creating innovative and user-friendly solutions. Our mission is to provide you with a seamless online experience that meets your needs and exceeds your expectations. We regularly update the site to bring you the latest information and features. Our dedicated team works hard to deliver the best, paying attention to every detail to ensure your satisfaction. Feel free to contact us with any questions or suggestions. We are here to serve you!    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-12">
+                                        <div class="social-share-inner-left">
+                                            <span class="title">find with me</span>
+                                            <ul class="social-share d-flex liststyle">
+                                                <li class="facebook"><a href="https://www.facebook.com/profile.php?id=61567085345227&mibextid=ZbWKwL"><i data-feather="facebook"></i></a>
+                                                </li>
+                                                <li class="instagram"><a href="https://www.instagram.com/eren_yeager_x5/profilecard/?igsh=bmY5djlyZGdveWNx"><i data-feather="instagram"></i></a>
+                                                </li>
+                                                <li class="linkedin"><a href="https://www.youtube.com/@Eren_tech_6"><i data-feather="youtube"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-12 mt_mobile--30">
+                                        <div class="skill-share-inner">
+                                            <span class="title">best skill on</span>
+                                            <ul class="skill-share d-flex liststyle">
+                                                <li><img src="assets/images/icons 2/application (1).png" alt="Icons Images"></li>
+                                                <li><img src="assets/images/icons 2/2.png" alt="Icons Images"></li>
+                                                <li><img src="assets/images/icons 2/3.png" alt="Icons Images"></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="order-1 order-lg-2 col-lg-5">
+                            <div class="thumbnail">
+                                <div class="inner">
+                                    <img src="assets/images/22.png" alt="Personal Portfolio Images">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Slider Area -->
+
+        <!-- Start Service Area -->
+        <div class="rn-service-area rn-section-gap section-separator" id="features">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title text-left" data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true">
+                            <span class="subtitle">Features</span>
+                            <h2 class="title">What I Do</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row row--25 mt_md--10 mt_sm--10">
+
+                    <!-- Start Single Service -->
+                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-sm-12 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-service">
+                            <div class="inner">
+                                <div class="icon">
+                                    <i data-feather="layout"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="title"><a href="#">Front-End Development</a></h4>
+                                    <p class="description">I optimizie the user experience using HTML, JQuery, JavaScript and CSS to bring concepts to life.I Develop and maintain the user interface by following SEO best practices.                                        .</p>
+                                    <!-- <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a> -->
+                                </div>
+                            </div>
+                            <a class="over-link" href="#"></a>
+                        </div>
+                    </div>
+                    <!-- End SIngle Service -->
+                    <!-- Start Single Service -->
+                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-sm-12 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-service">
+                            <div class="inner">
+                                <div class="icon">
+                                    <i data-feather="grid"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="title"><a href="#">Application Development</a></h4>
+                                    <p class="description">Creating integrated applications for different platforms with attractive user interfaces and excellent user experiences.</p>
+                                    <!-- <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a> -->
+                                </div>
+                            </div>
+                            <a class="over-link" href="#"></a>
+                        </div>
+                    </div>
+                    <!-- End SIngle Service -->
+                    <!-- Start Single Service -->
+                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="500" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-sm-12 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-service">
+                            <div class="inner">
+                                <div class="icon">
+                                    <i data-feather="aperture"></i>
+                                </div>
+                                <div class="content">
+                                    <h4 class="title"><a href="#">Game Development</a></h4>
+                                    <p class="description">Designing and developing interactive games using game engines, and creating smooth animations.</p>
+                                    <!-- <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a> -->
+                                </div>
+                            </div>
+                            <a class="over-link" href="#"></a>
+                        </div>
+                    </div>
+                   
+                  
+                 
+                    <!-- End SIngle Service -->
+
+                </div>
+            </div>
+        </div>
+        <!-- End Service Area  -->
+
+        <!-- Start Portfolio Area -->
+        <div class="rn-portfolio-area rn-section-gap section-separator" id="portfolio">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title text-center">
+                            <span class="subtitle">Visit my portfolio and keep your feedback</span>
+                            <h2 class="title">My Portfolio</h2>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row row--25 mt--10 mt_md--10 mt_sm--10">
+                    <!-- Start Single Portfolio -->
+                    <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-portfolio" data-toggle="modal" data-target="#exampleModalCenterr">
+                            <div class="inner">
+                                <div class="thumbnail" style="overflow: auto; height: 200px;">
+                                    <a href="javascript:void(0)">
+                                        <img src="assets/images/ahadit.png"  style="height:px;" alt="Personal Portfolio Images">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <div class="category-info">
+                                        <div class="category-list">
+                                            <a href="javascript:void(0)">الموقع الأحاديث إسلامية</a>
+                                        </div>
+                                        <div class="meta">
+                                            <span><a href="javascript:void(0)"><i class="feather-heart"></i></a>
+                                                235</span>
+                                        </div>
+                                    </div>
+                                    <h4 class="title"><a href="javascript:void(0)">الموقع الأحاديث الإسلامية يقدم مجموعة من الأحاديث النبوية مع تفسيراتها لتسهيل تعلم وتطبيق تعاليم الإسلام <i class="feather-arrow-up-right"></i></a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Single Portfolio -->
+                                        <!-- Start Single Portfolio -->
+                                        <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-12 mt--50 mt_md--30 mt_sm--30">
+                                            <div class="rn-portfolio" data-toggle="modal" data-target="#ee">
+                                                <div class="inner">
+                                                    <div class="thumbnail" style="overflow: auto; height: 200px;">
+                                                        <a href="javascript:void(0)">
+                                                            <img src="assets/images/مركز الساعة الإضافية.png"  style="height:px;" alt="Personal Portfolio Images">
+                                                        </a>
+                                                    </div>
+                                                    <div class="content">
+                                                        <div class="category-info">
+                                                            <div class="category-list">
+                                                                <a href="javascript:void(0)">مركز الساعة الإضافية                                                                </a>
+                                                            </div>
+                                                            <div class="meta">
+                                                                <span><a href="javascript:void(0)"><i class="feather-heart"></i></a>
+                                                                    153</span>
+                                                            </div>
+                                                        </div>
+                                                        <h4 class="title"><a href="javascript:void(0)">مركز الساعة الإضافية - دروس دعم شاملة بكل المواد <i class="feather-arrow-up-right"></i></a></h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Single Portfolio -->
+
+                    <!-- Start Single Portfolio -->
+                    <div data-aos="fade-up" data-aos-delay="300" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-portfolio" data-toggle="modal" data-target="#exampleModalCente">
+                            <div class="inner">
+                                <div class="thumbnail" style="overflow: auto; height: 200px;">
+                                    <a href="javascript:void(0)">
+                                        <img src="assets/images/clan free fair.png"  style="height:px;"  alt="Personal Portfolio Images">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <div class="category-info">
+                                        <div class="category-list">
+                                            <a href="javascript:void(0)">Clan free fair</a>
+                                        </div>
+                                        <div class="meta">
+                                            <span><a href="javascript:void(0)"><i class="feather-heart"></i></a>
+                                                127</span>
+                                        </div>
+                                    </div>
+                                    <h4 class="title"><a href="javascript:void(0)">Clan free fair ７７７WOLVES<i class="feather-arrow-up-right"></i></a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Single Portfolio -->
+
+                    <!-- Start Single Portfolio -->
+                    <div data-aos="fade-up" data-aos-delay="500" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-portfolio" data-toggle="modal" data-target="#exampleModalCent">
+                            <div class="inner">
+                                <div class="thumbnail" style="overflow: auto; height: 200px;">
+                                    <a href="javascript:void(0)">
+                                        <img src="assets/images/الثانوية مولاي رشيد أرفود.png"  style="height:px;"  alt="Personal Portfolio Images">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <div class="category-info">
+                                        <div class="category-list">
+                                            <a href="javascript:void(0)">الثانوية مولاي رشيد أرفود</a>
+                                        </div>
+                                        <div class="meta">
+                                            <span><a href="javascript:void(0)"><i class="feather-heart"></i></a>
+                                                146</span>
+                                        </div>
+                                    </div>
+                                    <h4 class="title"><a href="javascript:void(0)">ضمان الاندماج الاجتماعي و الثقافي للتلميذ عن طريق تعميق معارفه حول التاريخ و الحضارة الوطنية
+                                            <i class="feather-arrow-up-right"></i></a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Single Portfolio -->
+
+                    <!-- Start Single Portfolio -->
+                    <div data-aos="fade-up" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-portfolio" data-toggle="modal" data-target="#exampleModalCen">
+                            <div class="inner">
+                                <div class="thumbnail" style="overflow: auto; height: 200px;">
+                                    <a href="javascript:void(0)">
+                                        <img src="assets/images/website vit anime.png"  style="height:px;"   alt="Personal Portfolio Images">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <div class="category-info">
+                                        <div class="category-list">
+                                            <a href="javascript:void(0)">website Vit Anime</a>
+                                        </div>
+                                        <div class="meta">
+                                            <span><a href="javascript:void(0)"><i class="feather-heart"></i></a>
+                                                360</span>
+                                        </div>
+                                    </div>
+                                    <h4 class="title"><a href="javascript:void(0)"> This site was created to publish episodes, movies, pictures
+                                          <i class="feather-arrow-up-right"></i></a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Single Portfolio -->
+
+                    <!-- Start Single Portfolio -->
+                    <div data-aos="fade-up" data-aos-delay="300" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-12 mt--50 mt_md--30 mt_sm--30">
+                        <div class="rn-portfolio" data-toggle="modal" data-target="#exampleModalCe">
+                            <div class="inner">
+                                <div class="thumbnail" style="overflow: auto; height: 200px;">
+                                    <a href="javascript:void(0)">
+                                        <img src="assets/images/text.png"  style="height:px;"  alt="Personal Portfolio Images">
+                                    </a>
+                                </div>
+                                <div class="content">
+                                    <div class="category-info">
+                                        <div class="category-list">
+                                            <a href="javascript:void(0)">الصفحة التغبير النصوص</a>
+                                        </div>
+                                        <div class="meta">
+                                            <span><a href="javascript:void(0)"><i class="feather-heart"></i></a>
+                                                280</span>
+                                        </div>
+                                    </div>
+                                    <h4 class="title"><a href="javascript:void(0)">Design for HTML of CSS<i class="feather-arrow-up-right"></i></a></h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+        <!-- End portfolio Area -->
+
+        <!-- Start Resume Area -->
+        <div class="rn-resume-area rn-section-gap section-separator" id="resume">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title text-center">
+                            <span class="subtitle">4+ Years of Experience</span>
+                            <h2 class="title">My Resume</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt--45">
+                    <div class="col-lg-12">
+                        <ul class="rn-nav-list nav nav-tabs" id="myTabs" role="tablist">
+                           <!---<li class="nav-item">
+                                <a class="nav-link active" id="education-tab" data-toggle="tab" href="#education" role="tab" aria-controls="education" aria-selected="true">education</a>
+                            </li>--> 
+                            <li class="nav-item">
+                                <a class="nav-link" id="professional-tab" data-toggle="tab" href="#professional" role="tab" aria-controls="professional" aria-selected="false">professional
+                                    Skills</a>
+                            </li>
+                         <!---  <li class="nav-item">
+                                <a class="nav-link" id="experience-tab" data-toggle="tab" href="#experience" role="tab" aria-controls="experience" aria-selected="false">experience</a>
+                            </li>---> 
+                            <!-- <li class="nav-item">
+                                <a class="nav-link" id="interview-tab" data-toggle="tab" href="#interview" role="tab" aria-controls="interview" aria-selected="false">interview</a>
+                            </li> -->
+                        </ul>
+                        <!-- Start Tab Content Wrapper  
+                        <div class="rn-nav-content tab-content" id="myTabContents">-->
+                            <!-- Start Single Tab 
+                            <div class="tab-pane show active fade single-tab-area" id="education" role="tabpanel" aria-labelledby="education-tab">
+                                <div class="personal-experience-inner mt--40">
+                                    <div class="row"> -->
+                                        <!-- Start Skill List Area  
+                                        <div class="col-lg-6 col-md-12 col-12">
+                                            <div class="content">
+                                                <span class="subtitle">2007 - 2010</span>
+                                                <h4 class="maintitle">Education Quality</h4>
+                                                <div class="experience-list">-->
+
+                                                    <!-- Start Single List  
+                                                    <div class="resume-single-list">
+                                                        <div class="inner">
+                                                            <div class="heading">
+                                                                <div class="title">
+                                                                    <h4>Bechalour of Computer Science BSCS</h4>
+                                                                    <span>Air University (2013 - 2018)</span>
+                                                                </div>
+                                                                <div class="date-of-time">
+                                                                    <span>4.30/5</span>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>-->
+                                                    <!-- End Single List  -->
+
+                                                    <!-- Start Single List  
+                                                    <div class="resume-single-list">
+                                                        <div class="inner">
+                                                            <div class="heading">
+                                                                <div class="title">
+                                                                    <h4> ICS</h4>
+                                                                    <span>502 Model College (2011 - 2013)</span>
+                                                                </div>
+                                                                <div class="date-of-time">
+                                                                    <span>4.50/5</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>-->
+                                                    <!-- End Single List  -->
+
+                                                    <!-- Start Single List  -->
+                                                    <!-- <div class="resume-single-list">
+                                                        <div class="inner">
+                                                            <div class="heading">
+                                                                <div class="title">
+                                                                    <h4>Tips For Personal Portfolio</h4>
+                                                                    <span>University of Studies (1997 - 2001)</span>
+                                                                </div>
+                                                                <div class="date-of-time">
+                                                                    <span>4.80/5</span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="description"> If you are going to use a passage.
+                                                                Ut tincidunt est ac dolor aliquam sodales.
+                                                                Phasellus sed mauris hendrerit, laoreet sem in, lobortis
+                                                                mauris hendrerit ante.</p>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- End Single List  -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Skill List Area  -->
+
+                                        <!-- Start Skill List Area 2nd  
+                                        <div class="col-lg-6 col-md-12 col-12 mt_md--60 mt_sm--60">
+                                            <div class="content">
+                                                <span class="subtitle">2016 - 2021</span>
+                                                <h4 class="maintitle">Job Experience</h4>
+                                                <div class="experience-list">-->
+
+                                                    <!-- Start Single List  
+                                                    <div class="resume-single-list">
+                                                        <div class="inner">
+                                                            <div class="heading">
+                                                                <div class="title">
+                                                                    <h4>SENIOR UI/UX DESIGNER</h4>
+                                                                    <span>AKSA SDS (2020 - 2021)</span>
+                                                                </div>
+                                                                <div class="date-of-time">
+                                                                    <span>4.90/5</span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="description">Gather and evaluate user requirements in collaboration with product managers and engineers.Illustrate design ideas using storyboards, process flows and sitemaps.Design graphic user interface elements, like menus, tabs and widgets.Build page navigation buttons and search fields.Develop UI mockups and prototypes that clearly illustrate how sites function and look like.Create original graphic designs (e.g. images, sketches and tables).Prepare and present rough drafts to internal teams and key stakeholders.Identify and troubleshoot UX problems (e.g. responsiveness).</p>
+                                                        </div>
+                                                    </div>-->
+                                                    <!-- End Single List  -->
+
+                                                    <!-- Start Single List 
+                                                    <div class="resume-single-list">
+                                                        <div class="inner">
+                                                            <div class="heading">
+                                                                <div class="title">
+                                                                    <h4>SENIOR UI/UX DESIGNER</h4>
+                                                                    <span>Job at Arkhitech (2018 - 2021)</span>
+                                                                </div>
+                                                                <div class="date-of-time">
+                                                                    <span>5/5</span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="description">I was responsible the look and feel of a physical or digital product. This can include everything from packaging to web design. I work closely with interaction designers and UI/UX copywriters to create a user experience that is aesthetically pleasing, user-friendly, and efficient. My job was to assist UI/UX designers with developing high-fidelity prototypes towards the end of the design phase.visual styling of an app or website. Think things like how icons are designed, how they’re arranged on the page, and how they relate to each other. Design elements such as font choice, color scheme, graphics, buttons, and menu styling are all elements of interface design.</p>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- End Single List  -->
+
+                                                    <!-- Start Single List 
+                                                    <div class="resume-single-list">
+                                                        <div class="inner">
+                                                            <div class="heading">
+                                                                <div class="title">
+                                                                    <h4>FRONTEND DEVELOPER</h4>
+                                                                    <span>DEVTREST PVT LTD (2016 -
+                                                                2018)</span>
+                                                                </div>
+                                                                <div class="date-of-time">
+                                                                    <span>5.00/5</span>
+                                                                </div>
+                                                            </div>
+                                                            <p class="description">My responsibility was to Optimizie the user experience.Using HTML, JavaScript and CSS to bring concepts to life.Developing and maintaining the user interface.Implementing design on mobile websites.Creating tools that improve site interaction regardless of the browser.Managing software workflow.Following SEO best practices.Fixing bugs and testing for usability.Ensure the technical feasibility of UI/UX designs..</p>
+                                                        </div>
+                                                    </div> -->
+                                                    <!-- End Single List  -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Skill List Area  -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Tab  -->
+
+                            <!-- Start Single Tab  -->
+                            <div class="tab-pane fade " id="professional" role="tabpanel" aria-labelledby="professional-tab">
+                                <div class="personal-experience-inner mt--40">
+                                    <div class="row row--40">
+
+                                        <!-- Start Single Progressbar  -->
+                                        <div class="col-lg-6 col-md-6 col-12">
+                                            <div class="progress-wrapper">
+                                                <div class="content">
+                                                    <span class="subtitle">Features</span>
+                                                    <h4 class="maintitle">Design Skill</h4>
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">PHOTOSHOP</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".3s" role="progressbar" style="width: 100%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">100%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">FIGMA</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.6s" data-wow-delay=".4s" role="progressbar" style="width: 95%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">95%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">ADOBE XD</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.7s" data-wow-delay=".5s" role="progressbar" style="width: 60%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">60%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">ADOBE ILLUSTRATOR</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay=".6s" role="progressbar" style="width: 70%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">70%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">DESIGN</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.9s" data-wow-delay=".7s" role="progressbar" style="width: 90%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">90%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Single Progressbar  -->
+
+                                        <!-- Start Single Progressbar  -->
+                                        <div class="col-lg-6 col-md-6 col-12 mt_sm--60">
+                                            <div class="progress-wrapper">
+                                                <div class="content">
+                                                    <span class="subtitle">Features</span>
+                                                    <h4 class="maintitle">Development Skill</h4>
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">HTML</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".3s" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">85%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">CSS</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.6s" data-wow-delay=".4s" role="progressbar" style="width: 80%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">80%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">JAVASCRIPT</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.7s" data-wow-delay=".5s" role="progressbar" style="width: 90%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">90%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">JQuery</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay=".6s" role="progressbar" style="width: 75%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">75%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                    <!-- Start Single Progress Charts -->
+                                                    <div class="progress-charts">
+                                                        <h6 class="heading heading-h6">PLUGIN</h6>
+                                                        <div class="progress">
+                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.9s" data-wow-delay=".7s" role="progressbar" style="width: 70%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span class="percent-label">70%</span></div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- End Single Progress Charts -->
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Single Progressbar  -->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Tab  -->
+
+                          
+                                                 
+                                                </div>
+                                            </div>
+                                        </div>
+                                         </div>
+                                                    <!-- End Single List  -->
+
+                                                   
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- End Skill List Area  -->
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- End Single Tab  -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Resume Area -->
+        <!-- Start Testimonia Area  -->
+
+        <!-- End Testimonia Area  -->
+      
+                                </div>
+
+                                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                                   
+                                </div>
+
+                                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                                    
+                                      
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- pricing area -->
+        <!-- Start News Area -->
+
+        <!-- ENd Mews Area -->
+        <!-- Start Contact section -->
+        <div class="rn-contact-area rn-section-gap section-separator" id="contacts">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="section-title text-center">
+                            <span class="subtitle">Contact</span>
+                            <h2 class="title">Contact With Me</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt--50 mt_md--40 mt_sm--40 mt-contact-sm">
+                    <div class="col-lg-5">
+                        <div class="contact-about-area">
+                            <div class="thumbnail">
+                                <img src="assets/images/contact/contact1.png" alt="contact-img">
+                            </div>
+                            <div class="title-area">
+                                <h4 class="title">hello we are developer</h4>
+                                <span>Developer And DESIGNER</span>
+                            </div>
+                            <div class="description">
+                                <p>I am available for freelance work. Connect with me via and call in to my account.
+                                </p>
+                                <span class="phone">Phone: <a href="#">+212 629332130</a></span>
+                                <span class="mail">Email: <a href="DeveloperTech@gmail.com">DeveloperTech@gmail.com</a></span>
+                            </div>
+                            <div class="social-area">
+                                <div class="name">FIND WITH ME</div>
+                                <div class="social-icone">
+                                    <a href="https://www.facebook.com/profile.php?id=61567085345227&mibextid=ZbWKwL"><i data-feather="facebook"></i></a>
+                                    <a href="https://www.youtube.com/@Eren_tech_6"><i data-feather="youtube"></i></a>
+                                    <a href="https://www.instagram.com/eren_yeager_x5/profilecard/?igsh=bmY5djlyZGdveWNx"><i data-feather="instagram"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div data-aos-delay="600" class="col-lg-7 contact-input">
+                        <div class="contact-form-wrapper">
+                            <div class="introduce">
+
+                                <form class="rnt-contact-form rwt-dynamic-form row" id="contact-form" method="POST" action="mail.php">
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="contact-name">Your Name</label>
+                                            <input class="form-control form-control-lg" name="contact-name" id="contact-name" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-6">
+                                        <div class="form-group">
+                                            <label for="contact-phone">Phone Number</label>
+                                            <input class="form-control" name="contact-phone" id="contact-phone" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="contact-email">Email</label>
+                                            <input class="form-control form-control-sm" id="contact-email" name="contact-email" type="email">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="subject">subject</label>
+                                            <input class="form-control form-control-sm" id="subject" name="subject" type="text">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <div class="form-group">
+                                            <label for="contact-message">Your Message</label>
+                                            <textarea name="contact-message" id="contact-message" cols="30" rows="10"></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-12">
+                                        <button name="submit" type="submit" id="submit" class="rn-btn">
+                                            <span>SEND MESSAGE</span>
+                                            <i data-feather="arrow-right"></i>
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Contuct section -->
+
+        <!-- Modal Portfolio Body area Start -->
+        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i data-feather="x"></i></span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+
+                            <div class="col-lg-6">
+                                <div class="portfolio-popup-thumbnail">
+                                    <div class="image">
+                                        <img class="w-100" src="assets/images/erentech.png" alt="slide">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6">
+                                <div class="text-content">
+                                    <h3>
+                                        <span>Featured - Design</span> UI UX Design and development.
+                                    </h3>
+                                    <p class="mb--30">Designed website portal of Easybux using figma and for development used bootstrap 5 , JQuery and javascript</p>
+                                    <div class="button-group mt--20">
+                                        <a href="#" class="rn-btn thumbs-icon">
+                                            <span>LIKE THIS</span>
+                                            <i data-feather="thumbs-up"></i>
+                                        </a>
+                                        <a href="https://programming-design.github.io/ahadit-islam/" class="rn-btn">
+                                            <span>VIEW PROJECT</span>
+                                            <i data-feather="chevron-right"></i>
+                                        </a>
+                                    </div>
+
+                                </div>
+                                <!-- End of .text-content -->
+                            </div>
+                        </div>
+                        <!-- End of .row Body-->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- End Modal Portfolio area -->
+
+   <!-- Modal Portfolio Body area Start -->
+   <div class="modal fade" id="exampleModalCenterr" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images/ahadit.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>الموقع</span> الأحاديث إسلامية
+                            </h3>
+                            <p class="mb--30">الموقع الأحاديث الإسلامية يقدم مجموعة من الأحاديث النبوية مع تفسيراتها لتسهيل تعلم وتطبيق تعاليم الإسلام</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                                <a href="https://programming-design.github.io/ahadit-islam/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
             </div>
         </div>
     </div>
+</div>
+<!-- End Modal Portfolio area -->
+        
+        <!-- Modal Portfolio Body area Start -->
+   <div class="modal fade" id="ee" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
 
-    <!-- قسم التواصل 
-    <div id="contact" class="container mt-5">
-        <h2 class="section-title">اتصل بنا</h2>
-        <p class="text-center">تواصل معنا عبر البريد: <strong>info@extra-time.com</strong></p>
-    </div>-->
-   
-    
-    <div id="time" class="filter-bar">
-         <header>
-        <h1>توقيت الدراسة</h1>
-      </header>
-        <label for="subject-filter">اختر القسم:</label>
-        <select id="subject-filter">
-        <option value="all">جميع الأقسام</option>
-         <!--   <option value="math">الرياضيات</option>
-          <option value="english">اللغة الإنجليزية</option>-->
-          <option value="science">أولى البكالوريا علوم التجربية</option>
-          <option value="arabic">الثانيةالبكالوريا علوم الإنسانية</option>
-          
-        </select>
-      </div>
-    
-      <div class="container">
-    
-       
-    
-        <!-- قسم العلوم -->
-        <div class="section fade-in" id="science">
-          <h2>أولى البكالوريا علوم التجربية</h2>
-          <div class="professor">
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images/مركز الساعة الإضافية.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>مركز</span> الساعة الإضافية
+                            </h3>
+                            <p class="mb--30">نحن مركز دعم تربوي يقدم دروسًا إضافية عالية الجودة في جميع المواد والمستويات. نعمل بفريق من الأساتذة المحترفين لضمان تحسين نتائج الطلاب عبر طرق تدريس عصرية</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                                <a href="https://programming-design.github.io/Sway3/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Portfolio area -->
+
+
+ <!-- Modal Portfolio Body area Start -->
+ <div class="modal fade" id="exampleModalCente" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images/clan free fair.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>CLAN</span> FREE FAIR
+                            </h3>
+                            <p class="mb--30">７７７WOLVES</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                              <a href="https://programming-design.github.io/777-wolves-v2/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Portfolio area -->
+
+ <!-- Modal Portfolio Body area Start -->
+ <div class="modal fade" id="exampleModalCent" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images//الثانوية مولاي رشيد أرفود.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>الثانوية</span> مولاي رشيد أرفود
+                            </h3>
+                            <p class="mb--30">
+                                يعتبر التعليم الثانوي مرحلة تخصص التلميذ و التي تمنحه التأهيل اللغوي والمفاهيم العلمية و التقنية الضرورية والتي من شأنها أن تمكنه من ولوج التعليم العالي أو التكوين المهني للاندماج بالتالي في عالم الشغل</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                                <a href="https://programming-design.github.io/tanawit-molay-rchid-arfoud/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a>
+                              <!---  <a href="https://programming-design.github.io/tanawit-molay-rchid-arfoud/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                              -->  
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Portfolio area -->
+ <!-- Modal Portfolio Body area Start -->
+ <div class="modal fade" id="exampleModalCen" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images/website vit anime.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>WebSite</span> Vit Anime.
+                            </h3>
+                            <p class="mb--30"> This site was created to publish episodes, movies, pictures, and anime designs. If you need help, I hope that you will contact me on the social networking sites above.</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                                <!-- <a href="https://inamurrehman420.github.io/easybux/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a> -->
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Portfolio area -->
+ <!-- Modal Portfolio Body area Start -->
+ <div class="modal fade" id="exampleModalCe" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images/text.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>الصفحة</span> التغبير النصوص
+                            </h3>
+                            <p class="mb--30">Designed website portal of development Eren Tech , HTML and CSS</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                                <a href="https://programming-design.github.io/Text/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a>
+                                <!-- <a href="https://inamurrehman420.github.io/easybux/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a> -->
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+<!-- End Modal Portfolio area -->
+ <!-- Modal Portfolio Body area Start -->
+ <div class="modal fade" id="exampleModalC" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images/erentech.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>Dashboard - Design</span> UI UX Design and development.
+                            </h3>
+                            <p class="mb--30">Designed website portal of Easybux using figma and for development used bootstrap 5 , JQuery and javascript</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                                <!-- <a href="https://inamurrehman420.github.io/easybux/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a> -->
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Portfolio area -->
+ <!-- Modal Portfolio Body area Start -->
+ <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"><i data-feather="x"></i></span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+
+                    <div class="col-lg-6">
+                        <div class="portfolio-popup-thumbnail">
+                            <div class="image">
+                                <img class="w-100" src="assets/images/erentech.png" alt="slide">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="text-content">
+                            <h3>
+                                <span>Featured - Design</span> UI UX Design and development.
+                            </h3>
+                            <p class="mb--30">Designed website portal of Easybux using figma and for development used bootstrap 5 , JQuery and javascript</p>
+                            <div class="button-group mt--20">
+                                <a href="#" class="rn-btn thumbs-icon">
+                                    <span>LIKE THIS</span>
+                                    <i data-feather="thumbs-up"></i>
+                                </a>
+                                <a href="https://programming-design.github.io/ahadit-islam/" class="rn-btn">
+                                    <span>VIEW PROJECT</span>
+                                    <i data-feather="chevron-right"></i>
+                                </a>
+                            </div>
+
+                        </div>
+                        <!-- End of .text-content -->
+                    </div>
+                </div>
+                <!-- End of .row Body-->
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Modal Portfolio area  --->  
+        <!-- Modal Blog Body area Start -->
+        <div class="modal fade" id="exampleModalCenters" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-news" role="document">
+                <div class="modal-content">
+
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><i data-feather="x"></i></span>
+                        </button>
+                    </div>
+
+                
+
+                    
+                    </div>
+                    <!-- End of .modal-body -->
+                </div>
+            </div>
+        </div>
+        <!-- End Modal Blog area -->
+        <!-- Back to  top Start -->
+        <div class="backto-top">
             <div>
-              <h3>الحصة الأولى يوم الجمعة</h3>
-              <p class="time">20:00 مساءً - 19:00 مساءً</p>
-              <div class="stars">
-                
-                
-                
-              </div>
+                <i data-feather="arrow-up"></i>
             </div>
-            <button>تعرف على المزيد</button>
-          </div>
-          <div class="professor">
-            <div>
-                <h3>الحصة الثانية يوم الأحد</h3>
-              <p class="time">19:00 مساءً - 18:00 مساءً</p>
-              <div class="stars">
-                
-                
-                
-              </div>
-            </div>
-            <button>تعرف على المزيد</button>
-          </div>
-          <!-- إضافة روابط الدروس المسجلة -->
-      <div>
-        <h3>الدروس المسجلة</h3>
-        <ul class="dros">
-          <li><a href="#" data-view="lesson1.html" data-pdf="lesson1.pdf">درس 1: التمييز</a></li>
-          <li><a href="#" data-view="lesson1.html" data-pdf="lesson1.pdf">درس 2:العدد  </a></li>
-          <li><a href="#" data-view="pdf/مهارة توسيع فكرة.pdf" data-pdf="pdf/مهارة توسيع فكرة.pdf">درس 3: مهارة توسيع فكرة 
-        </a></li>
-        </ul>
-      </div>
-      <div class="overlay"></div>
-<div class="popup">
-    <h3>اختر الخيار المناسب</h3>
-    <a href="#" id="view-link" target="_blank">مشاهدة من داخل المتصفح</a>
-    <a href="#" id="download-link" download>تحميل PDF</a>
-    <button id="close-popup">إغلاق</button>
-</div>
+        </div>
+        <!-- Back to top end -->
+
+        <!-- Start Right Demo  -->
+      
        
-   
-</div>
-    
-        <!-- قسم اللغة العربية -->
-        <div class="section fade-in" id="arabic">
-            <h2>الثانية البكالوريا علوم الإنسانية </h2>
-            <div class="professor">
-              <div>
-                <h3>الحصة الأولى يوم الجمعة</h3>
-                <p class="time">21:00 مساءً - 20:00 مساءً</p>
-                <div class="stars">
-                  
-                  
-                  
-                </div>
-              </div>
-              <button>تعرف على المزيد</button>
-            </div>
-            <div class="professor">
-              <div>
-                  <h3>الحصة الثانية يوم الأحد</h3>
-                <p class="time">20:00 مساءً - 19:00 مساءً</p>
-                <div class="stars">
-                  
-                  
-                  
-                </div>
-              </div>
-              <button>تعرف على المزيد</button>
-            </div>
-         
-  
-  <!-- إضافة روابط الدروس المسجلة -->
-  <div>
-    <h3>الدروس المسجلة</h3>
-    <ul class="dros">
-        <li><a href="#" data-view="lesson1.html" data-pdf="lesson1.pdf">درس 1: </a></li>
-        <li><a href="#" data-view="lesson2.html" data-pdf="lesson2.pdf">درس 2: </a></li>
-        <li><a href="#" data-view="lesson3.html" data-pdf="lesson3.pdf">درس 3: </a></li>
-    </ul>
-</div>
-
-<div class="overlay"></div>
-<div class="popup">
-    <h3>اختر الخيار المناسب</h3>
-    <a href="#" id="view-link" target="_blank">مشاهدة من داخل المتصفح</a>
-    <a href="#" id="download-link" download>تحميل PDF</a>
-    <button id="close-popup">إغلاق</button>
-</div>
-</div></div>
 
 
+                                 
 
-    <!-- إنجازات المركز -->
-    <div id="nomber" class="counter-section" data-aos="fade-up">
-        <h2>إنجازاتنا بالأرقام</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="counter">100+</div>
-                <p>طالب مسجل</p>
-            </div>
-            <div class="col-md-4">
-                <div class="counter">10+</div>
-                <p>أساتذة متخصصون</p>
-            </div>
-            <div class="col-md-4">
-                <div class="counter">95%</div>
-                <p>نسبة النجاح</p>
-            </div>
-        </div>
-    </div>
 
-    <!-- شهادات الطلاب -->
-    <div id="chahada" class="container" data-aos="fade-up">
-        <h2 class="section-title">شهادات طلابنا</h2>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="testimonial">
-                    <p>"تجربة ممتازة، تعلمت الكثير وارتفعت نتائجي بسرعة!"</p>
-                    <strong>- أحمد خالد</strong>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="testimonial">
-                    <p>"أساتذة مميزون وشرح بسيط ومفيد. شكراً لكم!"</p>
-                    <strong>- سلمى نور</strong>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="testimonial">
-                    <p>"أفضل مركز للدروس الإضافية، أوصي به لجميع أصدقائي."</p>
-                    <strong>- محمد علي</strong>
-                </div>
-            </div>
-        </div>
-    </div>
+    </main>
 
-    <!-- الأسئلة الشائعة -->
-    <div id="1" class="faq" data-aos="fade-up">
+    <!-- Start Footer Area -->
+    <div class="rn-footer-area rn-section-gap section-separator">
         <div class="container">
-            <h2 class="section-title">الأسئلة الشائعة</h2>
-            <div class="faq-item">
-                <h5>ما هي الخدمات التي يقدمها المركز في مادة اللغة العربية؟</h5>
-                <p>نقدم دروسًا في النحو، الصرف، القراءة الإبداعية، والكتابة الأدبية.</p>
-            </div>
-            <div class="faq-item">
-                <h5>كيف يمكنني التسجيل؟</h5>
-                <p>يمكنك التسجيل عن طريق زيارة المركز مباشرة أو التسجيل عبر الإنترنت.</p>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="footer-area text-center">
+
+                        <div class="logo">
+                            <a href="index.html">
+                                <img src="assets/images/logo.png" alt="logo">
+                            </a>
+                        </div>
+
+                        <p class="description mt--30">© Developer Tech 2025. All rights reserved by <a target="_blank"></a></p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <!-- End Footer Area -->
 
-
-    
-    <!-- قسم التواصل -->
-    <div id="contact" class="container mt-5">
-        <h2 class="section-title">اتصل بنا</h2>
-        <p class="text-center">تواصل معنا عبر البريد: <strong>info@extra-time.com</strong></p>
-    </div>
-   
-
-    <!-- زر العودة للأعلى -->
-    <div class="back-to-top" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></div>
-
-
-    <!-- الفوتر -->
-    <footer>
-        <p>&copy; 2025 مركز الساعة الإضافية - جميع الحقوق محفوظة</p>
-    </footer>
-
-    <!-- مكتبات الجافاسكربت -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
-    <script>
-        AOS.init();
-        window.addEventListener("scroll", function() {
-            const backToTop = document.querySelector(".back-to-top");
-            backToTop.style.display = window.pageYOffset > 300 ? "block" : "none";
-        });
-        function scrollToTop() {
-            window.scrollTo({ top: 0, behavior: "smooth" });
-        }
-
-        document.getElementById('subject-filter').addEventListener('change', function() {
-            let filterValue = this.value;
-            let sections = document.querySelectorAll('.section');
-      
-            sections.forEach(function(section) {
-              if (filterValue === 'all' || section.id === filterValue) {
-                section.style.display = 'block';
-              } else {
-                section.style.display = 'none';
-              }
-            });
-          });
-      
-          // التأثير التفاعلي للبوتون
-          const buttons = document.querySelectorAll('.professor button');
-          buttons.forEach(button => {
-            button.addEventListener('click', () => {
-              alert("ستتم إضافة المزيد من التفاصيل قريباً.");
-            });
-          });
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const lessonLinks = document.querySelectorAll(".dros a");
-            const popup = document.querySelector(".popup");
-            const overlay = document.querySelector(".overlay");
-            const viewLink = document.getElementById("view-link");
-            const downloadLink = document.getElementById("download-link");
-            const closePopup = document.getElementById("close-popup");
-
-            lessonLinks.forEach(link => {
-                link.addEventListener("click", function(event) {
-                    event.preventDefault();
-
-                    const viewUrl = this.getAttribute("data-view");
-                    const pdfUrl = this.getAttribute("data-pdf");
-
-                    viewLink.href = viewUrl;
-                    downloadLink.href = pdfUrl;
-
-                    popup.style.display = "block";
-                    overlay.style.display = "block";
-                });
-            });
-
-            closePopup.addEventListener("click", function() {
-                popup.style.display = "none";
-                overlay.style.display = "none";
-            });
-
-            overlay.addEventListener("click", function() {
-                popup.style.display = "none";
-                overlay.style.display = "none";
-            });
-        });
-    </script>
-
-     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const lessonLinks = document.querySelectorAll(".dros a");
-            const popup = document.querySelector(".popup");
-            const overlay = document.querySelector(".overlay");
-            const viewLink = document.getElementById("view-link");
-            const downloadLink = document.getElementById("download-link");
-            const closePopup = document.getElementById("close-popup");
-
-            lessonLinks.forEach(link => {
-                link.addEventListener("click", function(event) {
-                    event.preventDefault();
-
-                    const viewUrl = this.getAttribute("data-view");
-                    const pdfUrl = this.getAttribute("data-pdf");
-
-                    viewLink.href = viewUrl;
-                    downloadLink.href = pdfUrl;
-
-                    popup.style.display = "block";
-                    overlay.style.display = "block";
-                });
-            });
-
-            closePopup.addEventListener("click", function() {
-                popup.style.display = "none";
-                overlay.style.display = "none";
-            });
-
-            overlay.addEventListener("click", function() {
-                popup.style.display = "none";
-                overlay.style.display = "none";
-            });
-        });
-    </script>
+    <!-- JS ============================================ -->
+    <script src="assets/js/vendor/jquery.js"></script>
+    <script src="assets/js/vendor/modernizer.min.js"></script>
+    <script src="assets/js/vendor/feather.min.js"></script>
+    <script src="assets/js/vendor/slick.min.js"></script>
+    <script src="assets/js/vendor/bootstrap.js"></script>
+    <script src="assets/js/vendor/text-type.js"></script>
+    <script src="assets/js/vendor/wow.js"></script>
+    <script src="assets/js/vendor/aos.js"></script>
+    <script src="assets/js/vendor/particles.js"></script>
+    <!-- main JS -->
+    <script src="assets/js/main.js"></script>
 </body>
+
 </html>
